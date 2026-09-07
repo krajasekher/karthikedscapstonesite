@@ -166,6 +166,11 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main);
     document.body.classList.add('appear');
+    // LCP: prioritize the first image's request. waitForFirstImage eager-loads
+    // it, but the browser still needs fetchpriority=high for early discovery.
+    // Applies template-wide (e.g. the article-detail hero image).
+    const firstImg = main.querySelector('.section img');
+    if (firstImg) firstImg.setAttribute('fetchpriority', 'high');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
 
