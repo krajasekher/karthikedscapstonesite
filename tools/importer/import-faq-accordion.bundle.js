@@ -35,11 +35,53 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-article-detail.js
-  var import_article_detail_exports = {};
-  __export(import_article_detail_exports, {
-    default: () => import_article_detail_default
+  // tools/importer/import-faq-accordion.js
+  var import_faq_accordion_exports = {};
+  __export(import_faq_accordion_exports, {
+    default: () => import_faq_accordion_default
   });
+
+  // tools/importer/parsers/accordion.js
+  function parse(element, { document: document2 }) {
+    const items = Array.from(element.querySelectorAll(".cmp-accordion__item"));
+    const cells = [];
+    items.forEach((item) => {
+      const titleEl = item.querySelector(".cmp-accordion__title, .cmp-accordion__button, .cmp-accordion__header");
+      const question = titleEl ? (titleEl.textContent || "").trim() : "";
+      const panel = item.querySelector(".cmp-accordion__panel");
+      let answerContent = [];
+      if (panel) {
+        const textWrappers = Array.from(panel.querySelectorAll(".cmp-text"));
+        if (textWrappers.length) {
+          textWrappers.forEach((tw) => {
+            Array.from(tw.children).forEach((child) => {
+              if ((child.textContent || "").replace(/ /g, " ").trim()) {
+                answerContent.push(child);
+              }
+            });
+          });
+        }
+        if (!answerContent.length) {
+          answerContent = Array.from(panel.children);
+        }
+        if (!answerContent.length) {
+          const txt = (panel.textContent || "").trim();
+          if (txt) answerContent.push(txt);
+        }
+      }
+      if (question || answerContent.length) {
+        const questionCell = question || "";
+        const answerCell = answerContent.length ? answerContent : "";
+        cells.push([questionCell, answerCell]);
+      }
+    });
+    if (!cells.length) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const block = WebImporter.Blocks.createBlock(document2, { name: "accordion", cells });
+    element.replaceWith(block);
+  }
 
   // tools/importer/transformers/wknd-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
@@ -60,12 +102,15 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/transformers/wknd-article-title.js
+  // tools/importer/transformers/wknd-internal-links.js
   var TransformHook2 = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform2(hookName, element, payload) {
     if (hookName !== TransformHook2.afterTransform) return;
-    element.querySelectorAll(".cmp-contentfragment__title").forEach((title) => {
-      title.remove();
+    element.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      if (/^\/(?!.*\/assets\/).*\.html$/.test(href)) {
+        a.setAttribute("href", href.replace(/\.html$/, ""));
+      }
     });
   }
 
@@ -104,21 +149,23 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/import-article-detail.js
-  var parsers = {};
+  // tools/importer/import-faq-accordion.js
+  var parsers = {
+    accordion: parse
+  };
   var PAGE_TEMPLATE = {
-    name: "article-detail",
-    description: "Long-form magazine article: breadcrumb, hero image, H1 title + byline, article body with pull-quote, and author bio. Fully default content.",
+    name: "faq-accordion",
+    description: "FAQ support page: header (title + hero image + intro) followed by an accordion of expandable Q&A rows and a Need more help contact block.",
     urls: [
-      "https://wknd.site/us/en/magazine/arctic-surfing.html"
+      "https://wknd.site/us/en/faqs.html"
     ],
-    blocks: [],
+    blocks: [
+      { name: "accordion", instances: ["div.accordion.panelcontainer", ".cmp-accordion"] }
+    ],
     sections: [
-      { id: "hero-image", name: "Hero image", selector: "div.image.aem-GridColumn", style: null, blocks: [], defaultContent: ["div.image img", ".cmp-image"] },
-      { id: "breadcrumb", name: "Breadcrumb", selector: "div.breadcrumb", style: null, blocks: [], defaultContent: ["nav.cmp-breadcrumb", ".cmp-breadcrumb__list"] },
-      { id: "article-header", name: "Article header", selector: "main.aem-GridColumn--default--8 > div", style: null, blocks: [], defaultContent: ["h1.cmp-title__text", "h4.cmp-title__text", ".cmp-title"] },
-      { id: "article-body", name: "Article body", selector: "article.contentfragment", style: null, blocks: [], defaultContent: ["article.contentfragment p", "article.contentfragment h2", "blockquote", "article.contentfragment img"] },
-      { id: "author-bio", name: "Author bio", selector: "div.experiencefragment", style: null, blocks: [], defaultContent: ["div.experiencefragment h2", "div.experiencefragment p", "div.experiencefragment a"] }
+      { id: "page-header", name: "Page header", selector: "div.title.cmp-title--underline", style: null, blocks: [], defaultContent: ["h1.cmp-title__text", ".cmp-image img", "p"] },
+      { id: "faq-accordion", name: "FAQ accordion", selector: "div.accordion.panelcontainer", style: null, blocks: ["accordion"], defaultContent: [] },
+      { id: "need-more-help", name: "Need more help", selector: "div.text.cmp-text--font-small", style: null, blocks: [], defaultContent: ["h3.cmp-title__text", "p"] }
     ]
   };
   var transformers = [
@@ -150,7 +197,7 @@ var CustomImportScript = (() => {
     });
     return pageBlocks;
   }
-  var import_article_detail_default = {
+  var import_faq_accordion_default = {
     transform: (payload) => {
       const { document: document2, url, params } = payload;
       const main = document2.body;
@@ -165,6 +212,8 @@ var CustomImportScript = (() => {
           } catch (e) {
             console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
           }
+        } else {
+          console.warn(`No parser found for block: ${block.name}`);
         }
       });
       executeTransformers("afterTransform", main, payload);
@@ -186,5 +235,5 @@ var CustomImportScript = (() => {
       }];
     }
   };
-  return __toCommonJS(import_article_detail_exports);
+  return __toCommonJS(import_faq_accordion_exports);
 })();

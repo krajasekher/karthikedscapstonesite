@@ -35,11 +35,100 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-article-detail.js
-  var import_article_detail_exports = {};
-  __export(import_article_detail_exports, {
-    default: () => import_article_detail_default
+  // tools/importer/import-category-listing.js
+  var import_category_listing_exports = {};
+  __export(import_category_listing_exports, {
+    default: () => import_category_listing_default
   });
+
+  // tools/importer/parsers/columns.js
+  function parse(element, { document: document2 }) {
+    const teaser = element.querySelector(".cmp-teaser") || element;
+    const content = teaser.querySelector(".cmp-teaser__content") || teaser;
+    const img = teaser.querySelector(".cmp-teaser__image img, .cmp-image img, img");
+    const textContent = [];
+    const pretitle = content.querySelector(".cmp-teaser__pretitle");
+    if (pretitle) textContent.push(pretitle);
+    const title = content.querySelector(".cmp-teaser__title, h1, h2, h3, h4, h5, h6");
+    if (title) textContent.push(title);
+    const description = content.querySelector(".cmp-teaser__description");
+    if (description) textContent.push(description);
+    const ctaLinks = Array.from(content.querySelectorAll(
+      ".cmp-teaser__action-link, .cmp-teaser__action-container a[href]"
+    ));
+    const seenCta = /* @__PURE__ */ new Set();
+    ctaLinks.forEach((a) => {
+      if (!seenCta.has(a) && !textContent.includes(a)) {
+        seenCta.add(a);
+        textContent.push(a);
+      }
+    });
+    if (!ctaLinks.length) {
+      content.querySelectorAll(".cmp-teaser__action-container").forEach((container) => {
+        if (container.querySelector("a[href]")) return;
+        if (container.textContent && container.textContent.trim()) {
+          textContent.push(container);
+        }
+      });
+    }
+    if (!title && !description && !img) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const cells = [];
+    cells.push([textContent.length ? textContent : "", img || ""]);
+    const isHero = element.matches(".cmp-teaser--hero, .cmp-teaser--imagebottom") || element.querySelector(".cmp-teaser--hero, .cmp-teaser--imagebottom") !== null || teaser.classList && (teaser.classList.contains("cmp-teaser--hero") || teaser.classList.contains("cmp-teaser--imagebottom"));
+    const name = isHero ? "columns (hero)" : "columns";
+    const block = WebImporter.Blocks.createBlock(document2, { name, cells });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/tabs-cards.js
+  function buildCardsBlock(gridEl, document2) {
+    let items = Array.from(gridEl.querySelectorAll(".cmp-image-list__item"));
+    if (!items.length) {
+      items = Array.from(gridEl.querySelectorAll('li[class*="image-list__item"], .cards-card'));
+    }
+    const cells = [];
+    items.forEach((item) => {
+      const img = item.querySelector(".cmp-image-list__item-image img, .cmp-image img, img");
+      const textContent = [];
+      const titleLink = item.querySelector("a.cmp-image-list__item-title-link");
+      const titleText = item.querySelector(".cmp-image-list__item-title");
+      if (titleLink && titleText) {
+        textContent.push(titleLink);
+      } else if (titleText) {
+        textContent.push(titleText);
+      } else if (titleLink) {
+        textContent.push(titleLink);
+      }
+      const description = item.querySelector(".cmp-image-list__item-description, p");
+      if (description) textContent.push(description);
+      if (img) {
+        cells.push([img, textContent.length ? textContent : ""]);
+      }
+    });
+    if (!cells.length) return null;
+    return WebImporter.Blocks.createBlock(document2, { name: "cards", cells });
+  }
+  function parse2(element, { document: document2 }) {
+    const labels = Array.from(element.querySelectorAll(".cmp-tabs__tablist .cmp-tabs__tab, .cmp-tabs__tab"));
+    const panels = Array.from(element.querySelectorAll(".cmp-tabs__tabpanel"));
+    const cells = [];
+    panels.forEach((panel, i) => {
+      const labelEl = labels[i];
+      const label = labelEl ? (labelEl.textContent || "").trim() : `Tab ${i + 1}`;
+      const grid = panel.querySelector('.image-list, .cmp-image-list, [class*="image-list"]') || panel;
+      const cardsBlock = buildCardsBlock(grid, document2);
+      cells.push([label, cardsBlock || ""]);
+    });
+    if (!cells.length) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const block = WebImporter.Blocks.createBlock(document2, { name: "tabs-detail", cells });
+    element.replaceWith(block);
+  }
 
   // tools/importer/transformers/wknd-cleanup.js
   var TransformHook = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
@@ -60,12 +149,15 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/transformers/wknd-article-title.js
+  // tools/importer/transformers/wknd-internal-links.js
   var TransformHook2 = { beforeTransform: "beforeTransform", afterTransform: "afterTransform" };
   function transform2(hookName, element, payload) {
     if (hookName !== TransformHook2.afterTransform) return;
-    element.querySelectorAll(".cmp-contentfragment__title").forEach((title) => {
-      title.remove();
+    element.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      if (/^\/(?!.*\/assets\/).*\.html$/.test(href)) {
+        a.setAttribute("href", href.replace(/\.html$/, ""));
+      }
     });
   }
 
@@ -104,21 +196,25 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/import-article-detail.js
-  var parsers = {};
+  // tools/importer/import-category-listing.js
+  var parsers = {
+    columns: parse,
+    "tabs-cards": parse2
+  };
   var PAGE_TEMPLATE = {
-    name: "article-detail",
-    description: "Long-form magazine article: breadcrumb, hero image, H1 title + byline, article body with pull-quote, and author bio. Fully default content.",
+    name: "category-listing",
+    description: "Adventures category landing: h1 + hero intro teaser + a tabbed category listing (6 tabs) with a nested cards grid of adventures per tab.",
     urls: [
-      "https://wknd.site/us/en/magazine/arctic-surfing.html"
+      "https://wknd.site/us/en/adventures.html"
     ],
-    blocks: [],
+    blocks: [
+      { name: "columns", instances: ["div.teaser.cmp-teaser--hero", "div.teaser.cmp-teaser--featured"] },
+      { name: "tabs-cards", instances: ["div.tabs.panelcontainer"] }
+    ],
     sections: [
-      { id: "hero-image", name: "Hero image", selector: "div.image.aem-GridColumn", style: null, blocks: [], defaultContent: ["div.image img", ".cmp-image"] },
-      { id: "breadcrumb", name: "Breadcrumb", selector: "div.breadcrumb", style: null, blocks: [], defaultContent: ["nav.cmp-breadcrumb", ".cmp-breadcrumb__list"] },
-      { id: "article-header", name: "Article header", selector: "main.aem-GridColumn--default--8 > div", style: null, blocks: [], defaultContent: ["h1.cmp-title__text", "h4.cmp-title__text", ".cmp-title"] },
-      { id: "article-body", name: "Article body", selector: "article.contentfragment", style: null, blocks: [], defaultContent: ["article.contentfragment p", "article.contentfragment h2", "blockquote", "article.contentfragment img"] },
-      { id: "author-bio", name: "Author bio", selector: "div.experiencefragment", style: null, blocks: [], defaultContent: ["div.experiencefragment h2", "div.experiencefragment p", "div.experiencefragment a"] }
+      { id: "page-title", name: "Page title", selector: "main .title", style: null, blocks: [], defaultContent: ["h1.cmp-title__text", ".cmp-title"] },
+      { id: "hero-intro", name: "Hero intro", selector: "div.teaser.cmp-teaser--hero", style: null, blocks: ["columns"], defaultContent: [] },
+      { id: "current-adventures", name: "Current Adventures", selector: "div.tabs.panelcontainer", style: null, blocks: ["tabs-cards"], defaultContent: ["h2.cmp-title__text"] }
     ]
   };
   var transformers = [
@@ -150,7 +246,7 @@ var CustomImportScript = (() => {
     });
     return pageBlocks;
   }
-  var import_article_detail_default = {
+  var import_category_listing_default = {
     transform: (payload) => {
       const { document: document2, url, params } = payload;
       const main = document2.body;
@@ -165,6 +261,8 @@ var CustomImportScript = (() => {
           } catch (e) {
             console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
           }
+        } else {
+          console.warn(`No parser found for block: ${block.name}`);
         }
       });
       executeTransformers("afterTransform", main, payload);
@@ -186,5 +284,5 @@ var CustomImportScript = (() => {
       }];
     }
   };
-  return __toCommonJS(import_article_detail_exports);
+  return __toCommonJS(import_category_listing_exports);
 })();
