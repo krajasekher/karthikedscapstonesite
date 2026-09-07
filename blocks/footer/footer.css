@@ -5,12 +5,14 @@ footer {
   font-size: var(--body-font-size-xs);
 }
 
+/* mobile-first: sections stack; the wrapper holds the 4 fragment sections
+   (logo, nav, Follow Us, attribution) */
 footer .footer > div {
   margin: auto;
   max-width: var(--content-max-width);
   padding: 24px;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
@@ -56,14 +58,39 @@ footer .footer h4 {
 }
 
 /* attribution block: smaller, muted line-height */
-footer .footer p:last-of-type,
-footer .footer p:nth-last-of-type(2) {
+footer .footer > div > div:last-child p {
   font-size: 13px;
   line-height: 1.6;
 }
 
+/* ===================================================================
+   Desktop: top row is horizontal (logo | nav | Follow Us), matching the
+   source where these three sit on one row (logo left, nav, social right);
+   the attribution block spans full width beneath.
+   =================================================================== */
 @media (width >= 900px) {
   footer .footer > div {
+    flex-flow: row wrap;
+    align-items: flex-start;
+    gap: 24px 48px;
     padding: 32px;
+  }
+
+  /* logo (1st), nav (2nd), Follow Us (3rd) share the top row */
+  footer .footer > div > div:nth-child(1),
+  footer .footer > div > div:nth-child(2),
+  footer .footer > div > div:nth-child(3) {
+    flex: 0 0 auto;
+  }
+
+  /* push Follow Us to the right, like the source */
+  footer .footer > div > div:nth-child(3) {
+    margin-left: auto;
+  }
+
+  /* attribution block: full width on its own row below */
+  footer .footer > div > div:last-child {
+    flex: 0 0 100%;
+    margin-top: 16px;
   }
 }
