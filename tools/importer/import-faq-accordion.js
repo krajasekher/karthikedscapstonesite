@@ -7,6 +7,7 @@ import accordionParser from './parsers/accordion.js';
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
 import internalLinksTransformer from './transformers/wknd-internal-links.js';
+import faqHeadingsTransformer from './transformers/wknd-faq-headings.js';
 import sectionsTransformer from './transformers/wknd-sections.js';
 
 // PARSER REGISTRY
@@ -35,6 +36,7 @@ const PAGE_TEMPLATE = {
 const transformers = [
   cleanupTransformer,
   internalLinksTransformer,
+  faqHeadingsTransformer,
   ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [sectionsTransformer] : []),
 ];
 
