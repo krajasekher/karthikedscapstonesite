@@ -52,3 +52,67 @@
   color: var(--link-color);
   text-decoration: none;
 }
+
+/* ===================================================================
+   cards (person) variant — about-us contributor / guide grids
+   Circular avatars, centered text, Asar serif name, uppercase role,
+   horizontal social-link row. Values from wknd.site computed styles.
+   =================================================================== */
+.cards.person > ul {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 40px 24px;
+}
+
+.cards.person > ul > li {
+  text-align: center;
+}
+
+/* circular avatar (source 164x164, border-radius 50%) */
+.cards.person .cards-card-image {
+  display: flex;
+  justify-content: center;
+}
+
+.cards.person > ul > li img {
+  width: 164px;
+  height: 164px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cards.person .cards-card-body {
+  margin-top: 16px;
+  text-transform: none;
+  color: var(--text-color);
+}
+
+/* name: Asar serif, 24px, weight 400 (matches source h3) */
+.cards.person .cards-card-body h3 {
+  margin: 0 0 6px;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l); /* 24px */
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+/* role: uppercase, 14px, semibold (matches source h5) */
+.cards.person .cards-card-body h5 {
+  margin: 0 0 12px;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s); /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* social links laid out as a centered horizontal row */
+.cards.person .cards-card-body a {
+  display: inline-block;
+  margin: 0 8px;
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--link-color);
+}
