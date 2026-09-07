@@ -248,10 +248,53 @@
         "https://wknd.site/us/en/faqs.html"
       ],
       "representativeUrl": "https://wknd.site/us/en/faqs.html",
-      "description": "To be named in naming step",
-      "blocks": [],
+      "description": "FAQ support page: header (title + hero image + intro) followed by an accordion of expandable Q&A rows and a Need more help contact block.",
+      "blocks": [
+        {
+          "name": "accordion",
+          "instances": [
+            "div.accordion.panelcontainer",
+            ".cmp-accordion"
+          ]
+        }
+      ],
       "coverageGaps": [],
-      "urlPattern": "/us/en/*"
+      "urlPattern": "/us/en/*",
+      "sections": [
+        {
+          "id": "page-header",
+          "name": "Page header",
+          "selector": "div.title.cmp-title--underline",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "h1.cmp-title__text",
+            ".cmp-image img",
+            "p"
+          ]
+        },
+        {
+          "id": "faq-accordion",
+          "name": "FAQ accordion",
+          "selector": "div.accordion.panelcontainer",
+          "style": null,
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "need-more-help",
+          "name": "Need more help",
+          "selector": "div.text.cmp-text--font-small",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "h3.cmp-title__text",
+            "p"
+          ]
+        }
+      ]
     },
     {
       "name": "homepage",

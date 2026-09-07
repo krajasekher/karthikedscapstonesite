@@ -1,0 +1,67 @@
+/*
+ * Accordion block — base from AEM Block Collection, restyled to match WKND FAQs.
+ * Uses native <details>/<summary> so keyboard support + a11y are built in.
+ * Source values (wknd.site/us/en/faqs): question 16px/600 uppercase Source Sans
+ * Pro; answer 14px/21px; light dividers; chevron toggle icon.
+ */
+
+.accordion details {
+  border-bottom: 1px solid #dadada;
+}
+
+.accordion details:first-of-type {
+  border-top: 1px solid #dadada;
+}
+
+.accordion details p {
+  margin-bottom: 0.8em;
+}
+
+/* question row */
+.accordion details summary {
+  position: relative;
+  padding: 16px 46px 16px 0;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-m); /* 16px */
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.2s;
+}
+
+.accordion details summary:focus-visible,
+.accordion details summary:hover {
+  color: var(--link-color);
+}
+
+.accordion details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* chevron toggle icon (rotates when open) */
+.accordion details summary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%) rotate(135deg);
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentcolor;
+  border-width: 2px 2px 0 0;
+  transition: transform 0.2s;
+}
+
+.accordion details[open] summary::after {
+  transform: translateY(-25%) rotate(-45deg);
+}
+
+/* answer body */
+.accordion details .accordion-item-body {
+  padding: 0 0 16px;
+  font-size: var(--heading-font-size-s); /* 14px */
+  line-height: 21px;
+  color: var(--text-color);
+}
