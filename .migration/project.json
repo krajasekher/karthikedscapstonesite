@@ -1,0 +1,12 @@
+{
+  "sites": {
+    "karthikedscapstonesite": {
+      "previewOrg": "krajasekher",
+      "previewSite": "karthikedscapstonesite",
+      "contentHostUrl": "https://content.da.live/krajasekher/karthikedscapstonesite/"
+    }
+  },
+  "features": [
+    "site-planning"
+  ]
+}
