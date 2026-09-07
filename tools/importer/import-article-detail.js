@@ -6,6 +6,7 @@
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/wknd-cleanup.js';
 import articleTitleTransformer from './transformers/wknd-article-title.js';
+import articleHeadingsTransformer from './transformers/wknd-article-headings.js';
 import sectionsTransformer from './transformers/wknd-sections.js';
 
 // PARSER REGISTRY (empty — default content only)
@@ -32,6 +33,7 @@ const PAGE_TEMPLATE = {
 const transformers = [
   cleanupTransformer,
   articleTitleTransformer,
+  articleHeadingsTransformer,
   ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [sectionsTransformer] : []),
 ];
 

@@ -145,6 +145,18 @@ export default async function decorate(block) {
     const slide = createSlide(row, idx, carouselId);
     slidesWrapper.append(slide);
 
+    // LCP optimization: the first slide's image is the hero / LCP element.
+    // Prioritize it (eager load + high fetch priority); lazy-load the rest.
+    const slideImg = slide.querySelector('img');
+    if (slideImg) {
+      if (idx === 0) {
+        slideImg.setAttribute('loading', 'eager');
+        slideImg.setAttribute('fetchpriority', 'high');
+      } else {
+        slideImg.setAttribute('loading', 'lazy');
+      }
+    }
+
     if (slideIndicators) {
       const indicator = document.createElement('li');
       indicator.classList.add('carousel-hero-slide-indicator');
