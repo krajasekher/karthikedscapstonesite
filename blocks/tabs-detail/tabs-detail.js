@@ -18,7 +18,13 @@ async function decorateNestedTable(table) {
     (tr) => [...tr.children].map((td) => ({ elems: [...td.childNodes] })),
   );
   const blockEl = buildBlock(blockName, rows);
-  table.replaceWith(blockEl);
+  // Give the block its OWN wrapper div. decorateBlock() adds a
+  // `${blockName}-wrapper` class to the block's PARENT; if we let that be the
+  // shared tab panel, the panel gets tagged `cards-wrapper` and EDS tries to
+  // load "cards-wrapper" as a block (404). A dedicated wrapper isolates it.
+  const wrapper = document.createElement('div');
+  wrapper.append(blockEl);
+  table.replaceWith(wrapper);
   decorateBlock(blockEl);
   await loadBlock(blockEl);
 }
