@@ -134,10 +134,90 @@
         "https://wknd.site/us/en.html"
       ],
       "representativeUrl": "https://wknd.site/us/en.html",
-      "description": "To be named in naming step",
-      "blocks": [],
+      "description": "WKND homepage: hero carousel, featured/teaser panels, and article + adventure card grids.",
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            "div.carousel.panelcontainer.cmp-carousel--hero",
+            ".carousel.cmp-carousel--hero"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.teaser.cmp-teaser--featured",
+            "div.teaser.cmp-teaser--hero.cmp-teaser--imagebottom"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "div.image-list.list"
+          ]
+        }
+      ],
       "coverageGaps": [],
-      "urlPattern": "/us/*"
+      "urlPattern": "/us/*",
+      "sections": [
+        {
+          "id": "hero-carousel",
+          "name": "Hero carousel",
+          "selector": "div.carousel.cmp-carousel--hero",
+          "style": null,
+          "blocks": [
+            "carousel-hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "featured-teaser",
+          "name": "Featured Article teaser",
+          "selector": "div.teaser.cmp-teaser--featured",
+          "style": "grey",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "recent-articles",
+          "name": "Recent Articles",
+          "selector": "div.image-list.list",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "h2.cmp-title__text",
+            ".cmp-title"
+          ]
+        },
+        {
+          "id": "climbing-teaser",
+          "name": "Climbing New Zealand teaser",
+          "selector": "div.teaser.cmp-teaser--hero.cmp-teaser--imagebottom",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "next-adventures",
+          "name": "Next Adventures",
+          "selector": "div.image-list.list",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "h2.cmp-title__text",
+            "h3.cmp-title__text",
+            ".cmp-title"
+          ]
+        }
+      ]
     },
     {
       "name": "article-detail",

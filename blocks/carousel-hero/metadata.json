@@ -1,0 +1,42 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "version": "1.0.0",
+  "created": "2026-09-07T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND homepage (homepage template) — marketing landing page",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "image",
+    "density": "wide",
+    "purpose": "landing-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "rotating slides, each: full-bleed background image + overlay box (heading + description + CTA)",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "marketing landing pages needing a full-bleed rotating hero",
+      "homepages with rotating promotional slides",
+      "top-of-page hero carousels with heading + description + CTA overlay"
+    ],
+    "notSuitableFor": [
+      "image-only detail galleries without text (use carousel-detail)",
+      "single static hero with no rotation (use hero)"
+    ]
+  },
+  "derivedFrom": {
+    "baseVariant": "carousel-detail",
+    "note": "Reuses carousel-detail rotation/indicator/arrow JS behavior; adds full-bleed image + white text-overlay styling. Class prefix carousel-hero-."
+  },
+  "usage": {
+    "pagesUsing": ["/us/en"],
+    "reuseCount": 1,
+    "lastUsed": "2026-09-07T00:00:00.000Z"
+  }
+}

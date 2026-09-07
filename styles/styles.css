@@ -287,7 +287,8 @@ main > .section:first-of-type {
 
 /* section metadata */
 main .section.light,
-main .section.highlight {
+main .section.highlight,
+main .section.grey {
   background-color: var(--light-color);
   margin: 0;
   padding: var(--section-padding) 0;
