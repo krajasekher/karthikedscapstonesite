@@ -1,20 +1,69 @@
+/* WKND footer — dark bar, light text, matched to wknd.site source */
 footer {
-  background-color: var(--light-color);
+  background-color: var(--dark-color); /* #202020 */
+  color: #ebebeb;
   font-size: var(--body-font-size-xs);
 }
 
 footer .footer > div {
   margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  max-width: var(--content-max-width);
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
 
 footer .footer p {
+  margin: 0 0 8px;
+  color: #ebebeb;
+}
+
+/* footer logo */
+footer .footer img {
+  width: 128px;
+  height: auto;
+}
+
+/* footer nav + social lists */
+footer .footer ul {
+  list-style: none;
   margin: 0;
+  padding: 0;
+}
+
+footer .footer li {
+  margin: 6px 0;
+}
+
+footer .footer a:any-link {
+  color: #ebebeb;
+  text-decoration: none;
+}
+
+footer .footer a:hover {
+  text-decoration: underline;
+}
+
+/* "Follow Us" heading */
+footer .footer h4 {
+  margin: 0 0 8px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #ebebeb;
+}
+
+/* attribution block: smaller, muted line-height */
+footer .footer p:last-of-type,
+footer .footer p:nth-last-of-type(2) {
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 @media (width >= 900px) {
   footer .footer > div {
-    padding: 40px 32px 24px;
+    padding: 32px;
   }
 }

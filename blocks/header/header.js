@@ -151,6 +151,21 @@ export default async function decorate(block) {
     });
   }
 
+  // tools: build a search field for visual parity with the source header.
+  // The nav.plain.html tools section carries a ":search:" token (rendered as an
+  // .icon-search icon); replace it with a real search input + icon. Per the
+  // nav.md contract, form controls are built here in JS, not in the fragment.
+  // Visual parity only — site search behaviour is out of scope.
+  const navTools = nav.querySelector('.nav-tools');
+  if (navTools) {
+    navTools.textContent = '';
+    const search = document.createElement('div');
+    search.classList.add('nav-search');
+    search.innerHTML = `<span class="icon icon-search"></span>
+      <input type="search" aria-label="Search" placeholder="Search">`;
+    navTools.append(search);
+  }
+
   // hamburger for mobile
   const hamburger = document.createElement('div');
   hamburger.classList.add('nav-hamburger');
