@@ -24,9 +24,12 @@ export default function transform(hookName, element, payload) {
     //  - header.cmp-experiencefragment--header (l.5): logo, sign-in, language nav, main nav, search
     //  - footer.cmp-experiencefragment--footer (l.399): footer nav, social buttons, copyright
     //  - iframe#destination_publishing_iframe... (l.494): Adobe ID syncing tracking iframe
+    //  - aside.cmp-layoutcontainer--sidebar: article-detail "Share this story" +
+    //    related-articles list (nav/auto chrome). No-op on templates without a sidebar.
     WebImporter.DOMUtils.remove(element, [
       'header.cmp-experiencefragment--header',
       'footer.cmp-experiencefragment--footer',
+      'aside.cmp-layoutcontainer--sidebar',
       'iframe',
     ]);
   }
