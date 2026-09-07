@@ -174,7 +174,11 @@ header nav .nav-sections ul {
 }
 
 header nav .nav-sections ul > li {
-  font-weight: 500;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s); /* 14px — matches wknd.site */
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 header nav .nav-sections ul > li > ul {
@@ -269,4 +273,40 @@ header nav .nav-sections ul > li > ul > li {
 /* tools */
 header nav .nav-tools {
   grid-area: tools;
+}
+
+/* ===================================================================
+   WKND styling — matched to wknd.site source computed styles
+   nav links: 14px uppercase (merged into the .nav-sections li rule above)
+   =================================================================== */
+@media (width >= 900px) {
+  header nav .nav-sections .default-content-wrapper > ul {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+}
+
+/* search tool — icon + input styled to match source (subtle grey field) */
+header nav .nav-tools .nav-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgb(235 235 235 / 54%);
+  padding: 4px 12px;
+}
+
+header nav .nav-tools .nav-search .icon-search {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+header nav .nav-tools .nav-search input[type='search'] {
+  border: 0;
+  background: transparent;
+  padding: 2px 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* ~14px */
+  outline: none;
 }
