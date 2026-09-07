@@ -1,0 +1,59 @@
+/* Block: tabs-detail -- styles matched to WKND source adventure tabs */
+
+.tabs-detail .tabs-detail-list {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0;
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.tabs-detail .tabs-detail-list button {
+  flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  line-height: 21px;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.tabs-detail .tabs-detail-list button p {
+  margin: 0;
+}
+
+.tabs-detail .tabs-detail-list button[aria-selected='true'] {
+  background-color: var(--dark-color);
+  color: var(--background-color);
+  cursor: default;
+}
+
+/* line-height matches the source's generous body-copy spacing; paragraphs
+   inherit the 45px value (nothing else sets panel paragraph line-height). */
+.tabs-detail .tabs-detail-panel {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: var(--text-color);
+  font-size: var(--body-font-size-m);
+  line-height: 45px;
+}
+
+.tabs-detail .tabs-detail-panel[aria-hidden='true'] {
+  display: none;
+}
+
+.tabs-detail .tabs-detail-panel img {
+  width: 100%;
+}

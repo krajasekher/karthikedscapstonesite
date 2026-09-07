@@ -1,0 +1,63 @@
+/*
+ * table-spec block
+ * Adventure metadata specification list (label/value pairs).
+ * Source: div.cmp-contentfragment on wknd.site adventure detail pages.
+ * Renders label/value pairs with WKND content-fragment typography:
+ * gray uppercase labels, dark bold uppercase values, no borders.
+ */
+
+.table-spec.block {
+  width: 100%;
+  overflow-x: auto;
+  margin: 18px 0;
+}
+
+.table-spec.block table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  border: 0;
+}
+
+/* no borders anywhere -- source spec list is borderless */
+.table-spec.block table thead tr,
+.table-spec.block table tbody tr,
+.table-spec.block table th,
+.table-spec.block table td {
+  border: 0;
+}
+
+/* every row (header + body) is a label/value pair -- style by column position */
+.table-spec.block table th,
+.table-spec.block table td {
+  padding: 7px 36px 7px 0;
+  text-align: left;
+  vertical-align: top;
+  font-family: var(--body-font-family);
+  text-transform: uppercase;
+}
+
+/* label column */
+.table-spec.block table th:first-child,
+.table-spec.block table td:first-child {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  color: rgb(105 105 105);
+  white-space: nowrap;
+}
+
+/* value column */
+.table-spec.block table th:last-child,
+.table-spec.block table td:last-child {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 21px;
+  color: var(--text-color);
+  width: 100%;
+}
+
+.table-spec.block table th p,
+.table-spec.block table td p {
+  margin: 0;
+}

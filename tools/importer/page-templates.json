@@ -1,0 +1,161 @@
+{
+  "templates": [
+    {
+      "name": "content-landing",
+      "urls": [
+        "https://wknd.site/us/en/about-us.html",
+        "https://wknd.site/us/en/magazine.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/about-us.html",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "coverageGaps": [],
+      "urlPattern": "/us/en/*"
+    },
+    {
+      "name": "detail-with-tabs",
+      "urls": [
+        "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+        "https://wknd.site/us/en/adventures/beervana-portland.html",
+        "https://wknd.site/us/en/adventures/climbing-new-zealand.html",
+        "https://wknd.site/us/en/adventures/colorado-rock-climbing.html",
+        "https://wknd.site/us/en/adventures/cycling-southern-utah.html",
+        "https://wknd.site/us/en/adventures/cycling-tuscany.html",
+        "https://wknd.site/us/en/adventures/downhill-skiing-wyoming.html",
+        "https://wknd.site/us/en/adventures/gastronomic-marais-tour.html",
+        "https://wknd.site/us/en/adventures/napa-wine-tasting.html",
+        "https://wknd.site/us/en/adventures/riverside-camping-australia.html",
+        "https://wknd.site/us/en/adventures/ski-touring-mont-blanc.html",
+        "https://wknd.site/us/en/adventures/surf-camp-costa-rica.html",
+        "https://wknd.site/us/en/adventures/tahoe-skiing.html",
+        "https://wknd.site/us/en/adventures/west-coast-cycling.html",
+        "https://wknd.site/us/en/adventures/whistler-mountain-biking.html",
+        "https://wknd.site/us/en/adventures/yosemite-backpacking.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+      "description": "Detail page layout with breadcrumbs, an image carousel, and tabbed body content.",
+      "blocks": [
+        {
+          "name": "carousel-detail",
+          "instances": [
+            "div.carousel.panelcontainer.cmp-carousel--mini",
+            ".carousel.cmp-carousel--mini"
+          ]
+        },
+        {
+          "name": "table-spec",
+          "instances": [
+            "div.cmp-contentfragment",
+            ".cmp-contentfragment__elements"
+          ]
+        },
+        {
+          "name": "tabs-detail",
+          "instances": [
+            "div.tabs.panelcontainer",
+            ".tabs.panelcontainer"
+          ]
+        }
+      ],
+      "coverageGaps": [],
+      "urlPattern": "/us/en/adventures/*",
+      "sections": [
+        {
+          "id": "breadcrumb",
+          "name": "Breadcrumb",
+          "selector": "div.breadcrumb.cmp-breadcrumb--fixed",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "nav.cmp-breadcrumb",
+            ".cmp-breadcrumb__list"
+          ]
+        },
+        {
+          "id": "image-carousel",
+          "name": "Image carousel",
+          "selector": "div.carousel.panelcontainer.cmp-carousel--mini",
+          "style": null,
+          "blocks": [
+            "carousel-detail"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "adventure-detail",
+          "name": "Adventure detail (title, metadata, share)",
+          "selector": "div.title.cmp-title--underline",
+          "style": null,
+          "blocks": [
+            "table-spec"
+          ],
+          "defaultContent": [
+            "h1.cmp-title__text",
+            ".cmp-title--underline"
+          ]
+        },
+        {
+          "id": "tabbed-body",
+          "name": "Tabbed body content",
+          "selector": "div.tabs.panelcontainer",
+          "style": null,
+          "blocks": [
+            "tabs-detail"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "category-listing",
+      "urls": [
+        "https://wknd.site/us/en/adventures.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/adventures.html",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "coverageGaps": [],
+      "urlPattern": "/us/en/*"
+    },
+    {
+      "name": "faq-accordion",
+      "urls": [
+        "https://wknd.site/us/en/faqs.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/faqs.html",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "coverageGaps": [],
+      "urlPattern": "/us/en/*"
+    },
+    {
+      "name": "homepage",
+      "urls": [
+        "https://wknd.site/us/en.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en.html",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "coverageGaps": [],
+      "urlPattern": "/us/*"
+    },
+    {
+      "name": "article-detail",
+      "urls": [
+        "https://wknd.site/us/en/magazine/arctic-surfing.html",
+        "https://wknd.site/us/en/magazine/guide-la-skateparks.html",
+        "https://wknd.site/us/en/magazine/san-diego-surf.html",
+        "https://wknd.site/us/en/magazine/ski-touring.html",
+        "https://wknd.site/us/en/magazine/western-australia.html"
+      ],
+      "representativeUrl": "https://wknd.site/us/en/magazine/arctic-surfing.html",
+      "description": "To be named in naming step",
+      "blocks": [],
+      "coverageGaps": [],
+      "urlPattern": "/us/en/magazine/*"
+    }
+  ],
+  "metadata": {
+    "projectType": "da"
+  }
+}
