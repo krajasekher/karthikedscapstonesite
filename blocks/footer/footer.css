@@ -47,8 +47,8 @@ footer .footer a:hover {
   text-decoration: underline;
 }
 
-/* "Follow Us" heading */
-footer .footer h4 {
+/* "Follow Us" heading (h3 for correct doc heading order — visually unchanged) */
+footer .footer h3 {
   margin: 0 0 8px;
   font-family: var(--body-font-family);
   font-size: 16px;
