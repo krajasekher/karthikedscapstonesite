@@ -188,10 +188,59 @@
         "https://wknd.site/us/en/adventures.html"
       ],
       "representativeUrl": "https://wknd.site/us/en/adventures.html",
-      "description": "To be named in naming step",
-      "blocks": [],
+      "description": "Adventures category landing: h1 + hero intro teaser + a tabbed category listing (6 tabs) with a nested cards grid of adventures per tab.",
+      "blocks": [
+        {
+          "name": "columns",
+          "instances": [
+            "div.teaser.cmp-teaser--hero",
+            "div.teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "tabs-cards",
+          "instances": [
+            "div.tabs.panelcontainer"
+          ]
+        }
+      ],
       "coverageGaps": [],
-      "urlPattern": "/us/en/*"
+      "urlPattern": "/us/en/*",
+      "sections": [
+        {
+          "id": "page-title",
+          "name": "Page title",
+          "selector": "main .title",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "h1.cmp-title__text",
+            ".cmp-title"
+          ]
+        },
+        {
+          "id": "hero-intro",
+          "name": "Hero intro",
+          "selector": "div.teaser.cmp-teaser--hero",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "current-adventures",
+          "name": "Current Adventures",
+          "selector": "div.tabs.panelcontainer",
+          "style": null,
+          "blocks": [
+            "tabs-cards"
+          ],
+          "defaultContent": [
+            "h2.cmp-title__text"
+          ]
+        }
+      ]
     },
     {
       "name": "faq-accordion",

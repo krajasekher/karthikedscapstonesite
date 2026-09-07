@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import { toClassName } from '../../scripts/aem.js';
+import { toClassName, decorateBlock, loadBlock } from '../../scripts/aem.js';
 
 export default async function decorate(block) {
   // build tablist
@@ -45,4 +45,14 @@ export default async function decorate(block) {
   });
 
   block.prepend(tablist);
+
+  // Decorate any nested blocks inside the tab panels (e.g. a cards grid per
+  // category on the Adventures listing). EDS does not auto-decorate blocks
+  // nested inside another block, so do it explicitly. No-op on pages whose
+  // panels hold only rich default content (the 16 adventure detail pages).
+  const nestedBlocks = block.querySelectorAll('.tabs-detail-panel > div[class]:not(.tabs-detail-panel)');
+  await Promise.all([...nestedBlocks].map(async (nested) => {
+    decorateBlock(nested);
+    await loadBlock(nested);
+  }));
 }
