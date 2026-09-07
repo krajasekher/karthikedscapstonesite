@@ -149,10 +149,71 @@
         "https://wknd.site/us/en/magazine/western-australia.html"
       ],
       "representativeUrl": "https://wknd.site/us/en/magazine/arctic-surfing.html",
-      "description": "To be named in naming step",
+      "description": "Long-form magazine article: breadcrumb, hero image, H1 title + byline, article body with pull-quote, and author bio. Fully default content.",
       "blocks": [],
       "coverageGaps": [],
-      "urlPattern": "/us/en/magazine/*"
+      "urlPattern": "/us/en/magazine/*",
+      "sections": [
+        {
+          "id": "hero-image",
+          "name": "Hero image",
+          "selector": "div.image.aem-GridColumn",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.image img",
+            ".cmp-image"
+          ]
+        },
+        {
+          "id": "breadcrumb",
+          "name": "Breadcrumb",
+          "selector": "div.breadcrumb",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "nav.cmp-breadcrumb",
+            ".cmp-breadcrumb__list"
+          ]
+        },
+        {
+          "id": "article-header",
+          "name": "Article header",
+          "selector": "main.aem-GridColumn--default--8 > div",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "h1.cmp-title__text",
+            "h4.cmp-title__text",
+            ".cmp-title"
+          ]
+        },
+        {
+          "id": "article-body",
+          "name": "Article body",
+          "selector": "article.contentfragment",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "article.contentfragment p",
+            "article.contentfragment h2",
+            "blockquote",
+            "article.contentfragment img"
+          ]
+        },
+        {
+          "id": "author-bio",
+          "name": "Author bio",
+          "selector": "div.experiencefragment",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.experiencefragment h2",
+            "div.experiencefragment p",
+            "div.experiencefragment a"
+          ]
+        }
+      ]
     }
   ],
   "metadata": {
