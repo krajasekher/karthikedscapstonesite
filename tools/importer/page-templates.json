@@ -7,10 +7,86 @@
         "https://wknd.site/us/en/magazine.html"
       ],
       "representativeUrl": "https://wknd.site/us/en/about-us.html",
-      "description": "To be named in naming step",
-      "blocks": [],
+      "description": "Overview landing pages (about-us, magazine): h1 + stacked sections of teasers and card grids (article cards, person/contributor cards).",
+      "blocks": [
+        {
+          "name": "cards",
+          "instances": [
+            ".experiencefragment.cmp-experience-fragment--contributor",
+            "div.image-list.list"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "div.teaser.cmp-teaser--featured",
+            "div.teaser.cmp-teaser--list.cmp-teaser--secure"
+          ]
+        }
+      ],
       "coverageGaps": [],
-      "urlPattern": "/us/en/*"
+      "urlPattern": "/us/en/*",
+      "sections": [
+        {
+          "id": "page-title",
+          "name": "Page title",
+          "selector": "div.title.cmp-title--page, main .title",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "h1.cmp-title__text",
+            ".cmp-title"
+          ]
+        },
+        {
+          "id": "contributors",
+          "name": "Our Contributors",
+          "selector": "div.experiencefragment.cmp-experience-fragment--contributor",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "h2.cmp-title__text",
+            "p"
+          ]
+        },
+        {
+          "id": "featured",
+          "name": "Featured teaser",
+          "selector": "div.teaser.cmp-teaser--featured",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "all-articles",
+          "name": "All Articles grid",
+          "selector": "div.image-list.list",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "h2.cmp-title__text"
+          ]
+        },
+        {
+          "id": "members-only",
+          "name": "Members Only teasers",
+          "selector": "div.teaser.cmp-teaser--secure",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": [
+            "h2.cmp-title__text",
+            "p"
+          ]
+        }
+      ]
     },
     {
       "name": "detail-with-tabs",
