@@ -1,19 +1,18 @@
+/* Block: cards -- design migrated from WKND homepage (.cmp-image-list) */
+
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 32px 14px;
 }
 
+/* source cards are borderless with no background -- image + text stacked */
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
-}
-
-.cards .cards-card-body {
-  margin: 16px;
+  background-color: transparent;
+  border: 0;
 }
 
 .cards .cards-card-image {
@@ -21,7 +20,35 @@
 }
 
 .cards > ul > li img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 13 / 10; /* source image 260x200 */
   object-fit: cover;
+}
+
+/* text column flush-left under the image, no padding */
+.cards .cards-card-body {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  line-height: 21px;
+  color: #696969;
+  text-transform: uppercase;
+}
+
+/* title link: rendered dark, semibold, uppercase (source inner span) */
+.cards .cards-card-body a {
+  display: block;
+  margin: 2px 0 16px;
+  font-size: var(--body-font-size-m); /* 18px */
+  line-height: 27px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards .cards-card-body a:hover {
+  color: var(--link-color);
+  text-decoration: none;
 }
