@@ -51,4 +51,26 @@ One `import-<template>.js` per template orchestrates parsers + transformers; con
 1. **Homepage Performance 99** — remaining item is "Minimize main-thread work." Only lever is a riskier lazy carousel-init; deliberately deferred to avoid regression for one point. All other pages 100.
 2. **Footer layout** — nav + social stack vertically vs. the source's more horizontal arrangement; approved to ship as-is (final-polish item).
 3. **Root `/`** — still the default AEM boilerplate index (references `mysite--aemtutorial`). The WKND homepage lives at `/us/en`. Clean up or redirect `/` if a branded root is desired.
-4. **Stale remote branches** — merged feature branches (`homepage`, `article-detail`, `faq-heading`, etc.) remain on origin; safe to delete. `main` is the shipped code.
+4. **Remote branches** — feature branches are deleted after merge; `main` is the shipped code.
+
+## Dynamic listings (index-driven)
+
+The homepage, magazine, and adventures listings are built at runtime from the query index, so newly published pages appear automatically — no hand-authored cards.
+
+**Query index** — `/query-index.json`, created via the Admin Config API (`PUT /config/{org}/sites/{site}/content/query.yaml`), not a repo file. Indexes `/us/en/**` (excludes nav/footer/fragments) and extracts per page: `title` (og:title), `image` (og:image), `description` (og:description), `category` (`meta[name=category]`), `lastModified` (Last-Modified header). `path` is implicit.
+
+**Blocks** (both reuse existing styling verbatim so output is pixel-identical to the former static cards):
+- `cards-index` — fetches the index, filters by `source` path-prefix (excluding the listing page itself), sorts by `lastModified` desc, optional `limit`. Builds the exact `cards` DOM and carries the `cards` class (`cards-index.css` `@import`s `cards/cards.css`). Used by: **magazine** (all articles) and **homepage** (Recent Articles limit 4 + Next Adventures limit 4).
+- `adventures-index` — builds an **All** tab plus one tab per distinct `category` value; each panel is a `cards` grid filtered by category. Reuses `tabs-detail` (tab UI) + `cards` (grid) via CSS `@import`. Used by: **adventures**. Config: `source`, optional `categories` (fixes tab order), `all-label`, `sort`.
+
+**Category model** — adventures carry a `Category` metadata row (single value, or comma-separated for multi: `cycling-tuscany` = `Cycling, Travel`). Live counts: Climbing 2, Cycling 4, Skiing 3, Surfing 2, Travel 6. Articles are distinguished from adventures by path prefix (`/us/en/magazine/` vs `/us/en/adventures/`), no template field needed. New categories grow their own tab automatically.
+
+**Authoring** — each listing page holds a single small block table (e.g. `cards-index` with `source` + `sort` cells); the static `cards`/`tabs-detail` blocks are untouched and remain available as fallbacks. Shipped via PRs #16 (`cards-index`) and #17 (`adventures-index`).
+
+**Operational note** — index config and (re)indexing are done via the Admin API. On publish/unpublish, the served `query-index.json` needs a preview-regen + live-publish of the index to reflect adds; **removals require `DELETE /index/...`** (async, 202) before republishing. A brief propagation delay (~10–15s) applies to both.
+
+## Known exceptions (dynamic listings)
+
+- **`/us/en/magazine/new-magazine`** ("Test magazine") — a real article kept live by request; appears as a card in the magazine + homepage Recent Articles listings until its metadata title is corrected or it is removed.
+- **`cycling-southern-utah`** — uncategorized in the original WKND content (only in "All"); assigned `Cycling` here so it files under a tab. This makes the live Cycling tab count 4 vs the original hand-authored 3.
+- **Ordering is recency-based** (`lastModified` desc) across all dynamic listings — correct for "newest first," but differs from the original hand-curated ordering.
