@@ -1,0 +1,15 @@
+/* adventures-index — dynamic tabbed adventure listing.
+ * Reuses the tab UI from tabs-detail and the card grid from cards verbatim
+ * (the block element carries the `tabs-detail` class and each panel holds a
+ * `.cards` grid), so the rendered output matches the original hand-authored
+ * tabs + cards. Importing both stylesheets keeps styling single-sourced and
+ * prevents drift. */
+@import url('../tabs-detail/tabs-detail.css');
+@import url('../cards/cards.css');
+
+/* The tabs-detail panel sets a tall body line-height for its rich default
+ * content; inside a cards grid that would distort the card text, so reset it
+ * to the cards line-height within adventures-index panels only. */
+.adventures-index.tabs-detail .tabs-detail-panel .cards {
+  line-height: normal;
+}
