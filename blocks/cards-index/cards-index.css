@@ -1,0 +1,6 @@
+/* cards-index — dynamic variant of `cards`.
+ * The block element also carries the `cards` class (added in cards-index.js), so
+ * all visual rules come from blocks/cards/cards.css verbatim — guaranteeing the
+ * rendered output is pixel-identical to the static cards block. This file only
+ * imports that stylesheet so the styling stays in one place and cannot drift. */
+@import url('../cards/cards.css');
